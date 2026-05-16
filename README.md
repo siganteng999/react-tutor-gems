@@ -205,11 +205,61 @@ Given the limitations above, here is how to get the most out of Synapse:
 
 ## Version History
 
-| Version | Description |
-|---|---|
-| v1.0 | Initial Claude-optimized adaptive onboarding prompt |
-| v1.1 | Revised with escape hatch, execution bias, XML phase tags, path limitation |
-| v2.0 | Gemini Gems optimized merge — combined onboarding architecture with pedagogical depth, added confidence routing, interaction modes, misconception handling, metacognitive coaching |
+This prompt was not designed in one sitting. It went through multiple review cycles across different AI models, each round exposing new failure modes and architectural gaps.
+
+### v0.1 — Original Draft (Prompt Engineer via ChatGPT)
+The first version was built with ChatGPT as a general-purpose adaptive learning and reasoning system. It introduced the core idea of goal-before-explanation and a 6-phase onboarding protocol (ASOP). Solid philosophy, but architecturally rigid — no escape hatch, no execution bias, no handling for direct questions or mid-conversation topic shifts. The protocol ran the same way regardless of whether the user's intent was clear or ambiguous.
+
+### v0.2 — First Review (Claude)
+Claude reviewed v0.1 and identified the main structural problems:
+- No escape hatch for users who just want a direct answer
+- Phases 4 and 5 overlapped and caused redundancy
+- Phase 3 listed 10+ learning paths, creating the same overload it was designed to prevent
+- No mid-conversation handling for follow-up questions vs. genuine new topics
+- Style goals (concise, no filler) conflicted with the protocol's verbosity
+
+### v1.0 — First Rewrite (Claude)
+Claude rewrote the prompt with all review fixes applied:
+- Escape hatch added as the first instruction
+- Phases reduced from 6 to 5 by merging exploration and confirmation
+- Learning paths capped at 2–3 options
+- XML-style semantic phase tags added for clearer boundaries
+- Mid-conversation handling explicitly defined
+- Execution bias introduced to prevent alignment loops
+
+### v1.1 — Second Review (Prompt Engineer via ChatGPT)
+The v1.0 rewrite was submitted to ChatGPT for critique as part of a cross-model evaluation. The prompt engineer reviewed the output, assessed which findings were valid, and identified the remaining weaknesses worth addressing:
+- "Intent is unclear" still underspecified — no explicit trigger conditions
+- Binary onboarding (either run it or don't) too crude — needed confidence tiers
+- No formal interaction mode architecture (factual, tutoring, strategic, brainstorming, etc.)
+- No in-session learning state tracking
+- Weak misconception handling — exploration-oriented but not diagnostic
+- Risk of conversational deadlock from over-cautious alignment behavior
+- Tone adaptation too loose — risk of mimicry reducing clarity
+
+Not all of ChatGPT's critique was accepted. Points around mastery loops and retrieval architecture were evaluated and set aside as out of scope for a system prompt — a judgment call made by the prompt engineer, not the model.
+
+### v1.2 — Gemini Gems Prompt Review (Claude)
+A separate Gemini-specific tutor prompt was submitted for review. Claude assessed it independently and found:
+- Stronger pedagogical depth than v1.0 — better teaching progression, feedback system, and metacognitive coaching
+- Weaker onboarding architecture — no escape hatch, no confidence routing, no execution bias
+- "Hidden learning roadmap" instruction unreliable — models ignore or partially surface it
+- No formatting guidance for Gemini's markdown rendering
+- Goal inference too passive — would cause Gemini to proceed on assumptions
+
+### v2.0 — Merged Final Version (Claude) — *Current*
+Claude merged the onboarding architecture from v1.0 with the pedagogical intelligence from the Gemini prompt, applied all fixes from v1.1, and optimized the entire system for Gemini Custom Gems:
+- XML tags removed, replaced with plain markdown for Gemini compatibility
+- Confidence-based routing added (high / moderate / low)
+- Explicit ASOP trigger and skip conditions defined
+- Formal interaction mode table added
+- Teaching progression model integrated (intuition → mechanism → formal → application → edge cases → limitations)
+- Misconception handling given its own dedicated section
+- Feedback system and metacognitive coaching merged in from Gemini prompt
+- Learning roadmap made visible to the learner instead of silent
+- Periodic state surfacing added instead of silent tracking
+- Tone constraint tightened — adapts to learner but maintains professionalism
+- Execution bias strengthened throughout
 
 ---
 
